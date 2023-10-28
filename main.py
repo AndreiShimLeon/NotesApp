@@ -1,3 +1,5 @@
+import struct
+
 from Presenter.Presenter import Presenter
 
 if __name__ == '__main__':

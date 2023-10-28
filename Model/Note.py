@@ -30,9 +30,6 @@ class Note:
         return "Заметка {} от {}\n>> {} <<\n{}\n".format(*self.note.values())
 
 
-# print(type(str(datetime.datetime.today())))
-# print(str(datetime.datetime.today()).upper().replace('2',"fuck"))
-
 
 if __name__ == '__main__':
     note1 = Note("Новая заметка 1 ", "This is text in my note")
