@@ -6,7 +6,8 @@ class Message:
     intro_message = ("Выберите действие:\n"
                      "1. Новая заметка;\n"
                      "2. Поиск заметки;\n"
-                     "3. Завешить работу.\n>>>")
+                     "3. Список заметок;\n"
+                     "4. Завешить работу.\n>>>")
 
     choice_error_message = "Пожалуйста, при выборе действий используйте только числа.\n"
     choice_repeat = "Пожалуйста, сделайте правильный выбор.\n"
@@ -18,7 +19,6 @@ class Message:
 
 
 class Presenter:
-    # TODO: Поиск заметки по ID, заголовку, времени/дате создания,
     def __init__(self):
         self.viewer = Viewer()
     def start(self):
@@ -27,7 +27,7 @@ class Presenter:
             # Пользователь делает выбор 1. нов зам 2. поиск 3. выход
             try:
                 choice = int(Viewer.get_data(self.viewer, message=Message.intro_message))
-                if choice < 1 or choice > 3:
+                if choice < 1 or choice > 4:
                     raise IndexError
             except ValueError as e:
                 Viewer.print_in_console(self.viewer, message=Message.choice_error_message)
@@ -39,13 +39,17 @@ class Presenter:
                 title = Viewer.get_data(self.viewer, message=Message.title_message)
                 text = Viewer.get_data(self.viewer, message=Message.text_message)
                 note = Note(title, text);
+                #TODO: запись в файл
+                print(note.to_string())
+            if choice == 2:
+                # TODO: Поиск заметки по ID, заголовку, времени/дате создания,
+                pass
                 new_title = Viewer.get_data(self.viewer, message=Message.new_title_message)
                 new_text = Viewer.get_data(self.viewer, message=Message.new_text_message)
                 note.correction(new_text=new_text, new_title=new_title)
-
-                print(note.to_string())
-            if choice == 2:
-                pass
+            #TODO чтение списка заметок
             if choice == 3:
+                pass
+            if choice == 4:
                 flag = False
                 Viewer.print_in_console(self.viewer, message=Message.bye_message)
