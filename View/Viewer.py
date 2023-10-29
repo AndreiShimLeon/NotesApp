@@ -9,8 +9,11 @@ class Viewer:
 
     def print_list_in_console(self, notes: list):
         print("Notes list:")
-        for note in notes:
-            print("\t", note[0], note[1], note[2])
+        try:
+            for note in notes:
+                print("\t", note[0], note[1], note[2])
+        except TypeError as e:
+            print("empty")
 
     def get_data(self, message: str):
         self.mes = message
