@@ -4,19 +4,19 @@ from View.Viewer import Viewer
 
 
 class Message:
-    intro_message = ("Выберите действие:\n"
-                     "\t1. Новая заметка;\n"
-                     "\t2. Поиск заметки;\n"
-                     "\t3. Список заметок;\n"
-                     "\t4. Завешить работу.\n>>>")
+    intro_message = ("Please choose action:\n"
+                     "\t1. Add note;\n"
+                     "\t2. Search note\n"
+                     "\t3. Display a list of notes\n"
+                     "\t4. Exit\n>>>")
 
-    choice_error_message = "Пожалуйста, при выборе действий используйте только числа.\n"
-    choice_repeat = "Пожалуйста, сделайте правильный выбор.\n"
-    bye_message = "До свидания!"
-    title_message = "Введите заголовок:\n"
-    text_message = "Введите текст заметки:\n"
-    new_title_message = "Введите новый заголовок заметки (чтобы пропустить, введите 'N'):\n"
-    new_text_message = "Введите скорректированный текст заметки:\n"
+    choice_error_message = "Please use only numbers when choosing actions\n"
+    choice_repeat = "Please make the right choice\n"
+    bye_message = "Goodbye!"
+    title_message = "Enter the title:\n"
+    text_message = "Enter the text of the note:\n"
+    new_title_message = "Enter a new note title (to skip, type 'N'):\n"
+    new_text_message = "Enter the corrected text of the note:\n"
 
 
 class Presenter:
