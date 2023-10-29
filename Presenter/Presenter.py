@@ -59,8 +59,8 @@ class Presenter:
                     else:
                         # User has chosen to find a note by ID
                         if search_choice == 1:
-                            search_id = Viewer.get_data(self.viewer, message=Message.id_search_message)
-                            search_result = FileManager.search_note(self.file_manager, id=search_id)
+                            search_id = int(Viewer.get_data(self.viewer, message=Message.id_search_message))
+                            search_result = FileManager.search_note(self.file_manager, note_id=search_id)
                         # User has chosen to find a note by title
                         elif search_choice == 2:
                             search_title = Viewer.get_data(self.viewer, message=Message.title_search_message)
@@ -84,13 +84,11 @@ class Presenter:
                                 raise IndexError
                             else:
                                 if edit_choice == 1:
-                                    # TODO correction in the file
                                     new_title = Viewer.get_data(self.viewer, message=Message.new_title_message)
                                     new_text = Viewer.get_data(self.viewer, message=Message.new_text_message)
                                     FileManager.correct_note(search_result[0], new_title=new_title, new_text=new_text)
                                 if edit_choice == 2:
-                                    # TODO deletion from the file
-                                    pass
+                                    FileManager.delete_note(search_result[0])
                                 if edit_choice == 3:
                                     continue
                 # User have chosen to display all notes

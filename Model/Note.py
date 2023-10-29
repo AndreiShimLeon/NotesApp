@@ -17,8 +17,9 @@ class Note:
                 Note.note_id = int(last_line.split(";")[0]) + 1
         except FileNotFoundError as e:
             print("First note has been created!")
-        finally:
-            id = Note.note_id
+        except IndexError as e:
+            print("First note has been created!")
+        id = Note.note_id
         date = self.set_date()
         if title =="":
             title = "No title " + str(id)

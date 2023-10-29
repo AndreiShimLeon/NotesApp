@@ -2,7 +2,7 @@ from datetime import datetime
 
 from Model.Note import Note
 
-from os import path
+from os import path, stat
 
 
 class FileManager:
@@ -14,11 +14,7 @@ class FileManager:
         :param note: an instance of the Note class
         :return: None
         """
-        flag = True if path.exists("notes.csv") else False
         with open('notes.csv', 'a') as data:
-            if not flag:
-                line = "id;date;title;text\n"
-                data.write(line)
             data.write(str(note.note['id']))
             data.write(';')
             data.write(str(note.note['date']))
@@ -35,20 +31,21 @@ class FileManager:
         """
         notes = []
         try:
-            with open('notes.csv', 'r') as data:
-                next(data)
-                for line in data:
-                    note_info = line.removesuffix("\n").split(';')
-                    notes.append(note_info)
-            return notes
+            if stat('notes.csv').st_size != 0:
+                with open('notes.csv', 'r') as data:
+                    for line in data:
+                        note_info = line.removesuffix("\n").split(';')
+                        notes.append(note_info)
+                return notes
+            else: return -1
         except:
             return -1
 
-    def search_note(self, id: str = '0', title: str = 'n', text_fragment: str = 'n') -> list:
+    def search_note(self, note_id: int = 0, title: str = 'n', text_fragment: str = 'n') -> list:
         """
         !important! Only one of the parameters should be different from the default value
         The function of searching in the list of notes for a note in which one of the parameters matches
-        :param id: if id = 0, we do not search by id
+        :param note_id: if id = 0, we do not search by id
         :param title: if title ='n', we do not search by title
         :param text_fragment: if text_fragment = 'n', we do not search for a text fragment
         :return: a note in the form of a list [id, date, title, text]
@@ -57,9 +54,9 @@ class FileManager:
         result = []
         if type(notes) is list:
             try:
-                if int(id) != 0:
+                if note_id != 0:
                     for note in notes:
-                        if int(note[0]) == int(id):
+                        if int(note[0]) == note_id:
                             result.append(note)
             except TypeError as e:
                 print("ID is a number")
@@ -101,3 +98,13 @@ class FileManager:
         content = content.replace(old_note_line, new_note_line)
         with open("notes.csv", "w") as write_file:
             write_file.write(content)
+
+    @classmethod
+    def delete_note(cls, note: list):
+        with open('notes.csv', 'r') as data_r:
+            content = data_r.readlines()
+        old_note_line = ";".join(note) + "\n"
+        with open("notes.csv", "w") as data_w:
+            for line in content:
+                if line != old_note_line:
+                    data_w.write(line)
