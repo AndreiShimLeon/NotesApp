@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Model.Note import Note
 
 from os import path
@@ -42,7 +44,7 @@ class FileManager:
         except:
             return -1
 
-    def search_note(self, id: str = 0, title: str = 'n', text_fragment: str = 'n') -> list:
+    def search_note(self, id: str = '0', title: str = 'n', text_fragment: str = 'n') -> list:
         """
         !important! Only one of the parameters should be different from the default value
         The function of searching in the list of notes for a note in which one of the parameters matches
@@ -57,7 +59,7 @@ class FileManager:
             try:
                 if int(id) != 0:
                     for note in notes:
-                        if int(note[0]) == id:
+                        if int(note[0]) == int(id):
                             result.append(note)
             except TypeError as e:
                 print("ID is a number")
@@ -73,3 +75,29 @@ class FileManager:
             return result
         else:
             print("List of notes is empty")
+            return result  # empty list
+
+    @classmethod
+    def correct_note(cls, note: list, new_title: str, new_text: str) -> None:
+        """
+        This function corrects note in the file notes.csv by replacing the old one with a new one
+        New title (optional) and new text(obligatory)
+        :param note: list type: [id, date, title, text]
+        :param new_title: if 'n' has been entered, the old title remains
+        :param new_text: replaces the old one
+        :return: None
+        """
+        new_note = note.copy()
+        if new_title.lower() != 'n':
+            new_note[2] = new_title
+        new_note[3] = new_text
+        date = str(datetime.today().date())
+        time = str(datetime.today().time())[:8]
+        new_note[1] = "{} {}".format(date, time)
+        with open('notes.csv', 'r') as data:
+            content = data.read()
+        old_note_line = ";".join(note)
+        new_note_line = ";".join(new_note)
+        content = content.replace(old_note_line, new_note_line)
+        with open("notes.csv", "w") as write_file:
+            write_file.write(content)

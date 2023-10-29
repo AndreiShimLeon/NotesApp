@@ -25,6 +25,9 @@ class Message:
     title_search_message = "\t\t Enter Title for search:\n>>>"
     text_search_message = "\t\t Enter Text for search:\n>>>"
     search_result_more_than_one = "\t\t There are more than one search results.\n\t\t For correction/deletion please try to repeat the query"
+    edit_found_note = ("\t\t\t 1. Correct note\n"
+                       "\t\t\t 2. Delete note\n"
+                       "\t\t\t 3. Return\n")
 
 
 class Presenter:
@@ -69,15 +72,27 @@ class Presenter:
                         # User has chosen to return to the main menu
                         elif search_choice == 4:
                             continue
+                        # If there are several results, the app propose to redo the search
                         if len(search_result) > 1:
                             Viewer.print_in_console(self.viewer, message=Message.search_result_more_than_one)
                             Viewer.print_list_in_console(self.viewer, notes=search_result, message="Found notes: ")
-                        else:
-                            Viewer.print_list_in_console(self.viewer, notes=search_result, message="Found note: ")
-                            Viewer.print_in_console(self.viewer, message=Message.search_result_more_than_one)
-
-                            if search_choice < 1 or search_choice > 4:
-                                pass
+                        # If there is the only result, the app propose to make next choice: correct, delete or return
+                        elif len(search_result) == 1:
+                            Viewer.print_note(self.viewer, search_result[0], message="Found note: ")
+                            edit_choice = int(Viewer.get_data(self.viewer, message=Message.edit_found_note))
+                            if edit_choice < 1 or edit_choice > 3:
+                                raise IndexError
+                            else:
+                                if edit_choice == 1:
+                                    # TODO correction in the file
+                                    new_title = Viewer.get_data(self.viewer, message=Message.new_title_message)
+                                    new_text = Viewer.get_data(self.viewer, message=Message.new_text_message)
+                                    FileManager.correct_note(search_result[0], new_title=new_title, new_text=new_text)
+                                if edit_choice == 2:
+                                    # TODO deletion from the file
+                                    pass
+                                if edit_choice == 3:
+                                    continue
                 # User have chosen to display all notes
                 elif choice == 3:
                     info = FileManager.load_notes(self.file_manager)

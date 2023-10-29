@@ -24,12 +24,3 @@ class Note:
             title = "No title " + str(id)
         self.note = {"id": id, "date": date, "title": title, "text": text}
 
-    def correction(self, new_text: str, new_title: str = 'n'):
-        self.note["date"] = self.set_date()
-        self.note["text"] = new_text
-        if new_title.lower() != 'n':
-            self.note["title"] = new_title
-
-    def to_string(self):
-        return "Note #{} Time stamp {}\n>> {} <<\n{}\n".format(*self.note.values())
-

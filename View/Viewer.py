@@ -7,7 +7,7 @@ class Viewer:
         self.mes = message
         print(self.mes)
 
-    def print_list_in_console(self, notes: list, message:str = ""):
+    def print_list_in_console(self, notes: list, message: str = ""):
         """
         Print the list to the console
         :param notes: list
@@ -21,6 +21,10 @@ class Viewer:
                 print("\t", note[0], note[1], note[2])
         except TypeError as e:
             print("empty")
+
+    def print_note(self, note: list, message: str = ''):
+        print(message)
+        print("Note {} dated {} \n \t{}\n{}".format(*note))
 
     def get_data(self, message: str):
         """
