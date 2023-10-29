@@ -25,7 +25,6 @@ class Presenter:
         self.saver = Saver()
 
     def start(self):
-        #TODO: проверка последнего ID в файле, изменение классового поля ID
         flag = True
         while flag:
             # Пользователь делает выбор 1. нов зам 2. поиск 3. выход
