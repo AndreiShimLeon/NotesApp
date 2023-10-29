@@ -7,8 +7,15 @@ class Viewer:
         self.mes = message
         print(self.mes)
 
-    def print_list_in_console(self, notes: list):
-        print("Notes list:")
+    def print_list_in_console(self, notes: list, message:str = ""):
+        """
+        Print the list to the console
+        :param notes: list
+        """
+        if message == "":
+            print("Notes list:")
+        else:
+            print(message)
         try:
             for note in notes:
                 print("\t", note[0], note[1], note[2])
@@ -16,5 +23,9 @@ class Viewer:
             print("empty")
 
     def get_data(self, message: str):
+        """
+        This function receives data from the console
+        :param message: a string in which we describe what the user needs to enter
+        """
         self.mes = message
         return input(self.mes)

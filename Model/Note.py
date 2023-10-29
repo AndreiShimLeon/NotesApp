@@ -16,10 +16,12 @@ class Note:
                 last_line = data.readlines()[-1]
                 Note.note_id = int(last_line.split(";")[0]) + 1
         except FileNotFoundError as e:
-            print("Создана первая заметка")
+            print("First note has been created!")
         finally:
             id = Note.note_id
         date = self.set_date()
+        if title =="":
+            title = "No title " + str(id)
         self.note = {"id": id, "date": date, "title": title, "text": text}
 
     def correction(self, new_text: str, new_title: str = 'n'):
@@ -29,5 +31,5 @@ class Note:
             self.note["title"] = new_title
 
     def to_string(self):
-        return "Заметка {} от {}\n>> {} <<\n{}\n".format(*self.note.values())
+        return "Note #{} Time stamp {}\n>> {} <<\n{}\n".format(*self.note.values())
 
