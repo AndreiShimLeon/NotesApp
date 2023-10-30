@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from Model.Note import Note
 
@@ -37,7 +37,8 @@ class FileManager:
                         note_info = line.removesuffix("\n").split(';')
                         notes.append(note_info)
                 return notes
-            else: return -1
+            else:
+                return -1
         except:
             return -1
 
@@ -108,3 +109,24 @@ class FileManager:
             for line in content:
                 if line != old_note_line:
                     data_w.write(line)
+
+
+    def string_to_date(self, string_date:str) -> date:
+        string_list = string_date.split("-")
+        if len(string_list) < 3: raise TypeError
+        return date.today().replace(int(string_list[0]), int(string_list[1]), int(string_list[2]))
+    def filtered_notes(self, start_date: str, end_date: str) -> list:
+        start = self.string_to_date(start_date)
+        end = self.string_to_date(end_date)
+        notes = self.load_notes()
+        result = []
+        try:
+            if start > end: raise TypeError
+            for note in notes:
+                note_date = self.string_to_date(note[1].split(" ")[0])
+                if note_date < end and note_date > start:
+                    result.append(note)
+        except ValueError as e:
+            raise TypeError
+        if len(result) == 0: return None
+        return result
